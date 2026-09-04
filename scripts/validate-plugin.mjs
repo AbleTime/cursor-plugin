@@ -55,8 +55,8 @@ if (plugin) {
 }
 
 const mcp = readJson("mcp.json");
-const trackingUrl = "https://app.abletime.com/api/public/v2/mcp";
-const boardUrl = "https://app.abletime.com/api/public/v2/mcp/pm";
+const trackingUrl = "https://track.abletime.com/api/public/v2/mcp";
+const boardUrl = "https://track.abletime.com/api/public/v2/mcp/pm";
 if (mcp) {
   const raw = JSON.stringify(mcp);
   if (!raw.includes(trackingUrl)) {

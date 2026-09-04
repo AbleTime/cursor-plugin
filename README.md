@@ -6,12 +6,12 @@ Homepage: [https://www.abletime.com](https://www.abletime.com)
 
 ## What you get
 
-Two HTTP MCP servers (production host `https://app.abletime.com`):
+Two HTTP MCP servers (production host `https://track.abletime.com`):
 
 | Server | URL | Role |
 | --- | --- | --- |
-| **AbleTime** | `https://app.abletime.com/api/public/v2/mcp` | Time tracking — tasks, entries, comments |
-| **AbleTime Board** | `https://app.abletime.com/api/public/v2/mcp/pm` | Project board — assignee, priority, stage, schedule, milestones |
+| **AbleTime** | `https://track.abletime.com/api/public/v2/mcp` | Time tracking — tasks, entries, comments |
+| **AbleTime Board** | `https://track.abletime.com/api/public/v2/mcp/pm` | Project board — assignee, priority, stage, schedule, milestones |
 
 Also included:
 
