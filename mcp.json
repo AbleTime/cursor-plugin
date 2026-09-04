@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "AbleTime": {
+      "url": "https://app.abletime.com/api/public/v2/mcp"
+    },
+    "AbleTime Board": {
+      "url": "https://app.abletime.com/api/public/v2/mcp/pm"
+    }
+  }
+}

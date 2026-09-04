@@ -1,0 +1,10 @@
+{
+  "name": "abletime-cursor-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official AbleTime plugin for Cursor",
+  "license": "MIT",
+  "scripts": {
+    "test": "node scripts/validate-plugin.mjs"
+  }
+}

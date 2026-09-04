@@ -1,0 +1,12 @@
+{
+  "name": "abletime",
+  "displayName": "AbleTime",
+  "version": "1.0.0",
+  "description": "Record time and run the AbleTime board from Cursor.",
+  "author": { "name": "AbleTime" },
+  "homepage": "https://www.abletime.com",
+  "repository": "https://github.com/AbleTime/cursor-plugin",
+  "license": "MIT",
+  "keywords": ["abletime", "time-tracking", "project-management", "mcp"],
+  "logo": "assets/logo.svg"
+}
