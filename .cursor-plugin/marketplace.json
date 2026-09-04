@@ -1,0 +1,16 @@
+{
+  "name": "abletime",
+  "owner": {
+    "name": "AbleTime"
+  },
+  "metadata": {
+    "description": "Official AbleTime plugins for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "abletime",
+      "source": "./plugins/abletime",
+      "description": "Record time and run the AbleTime board from Cursor."
+    }
+  ]
+}

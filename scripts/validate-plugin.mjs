@@ -33,28 +33,46 @@ function readText(relPath) {
   return readFileSync(abs, "utf8");
 }
 
-const plugin = readJson(".cursor-plugin/plugin.json");
+const marketplace = readJson(".cursor-plugin/marketplace.json");
+if (marketplace) {
+  if (marketplace.name !== "abletime") {
+    fail(".cursor-plugin/marketplace.json name must be abletime");
+  }
+  if (!marketplace.owner || marketplace.owner.name !== "AbleTime") {
+    fail(".cursor-plugin/marketplace.json owner.name must be AbleTime");
+  }
+  if (marketplace.owner && Object.prototype.hasOwnProperty.call(marketplace.owner, "email")) {
+    fail(".cursor-plugin/marketplace.json must not include owner.email");
+  }
+  const entry = Array.isArray(marketplace.plugins) ? marketplace.plugins[0] : null;
+  if (!entry || entry.name !== "abletime" || entry.source !== "./plugins/abletime") {
+    fail(".cursor-plugin/marketplace.json must list abletime at ./plugins/abletime");
+  }
+}
+
+const pluginRoot = "plugins/abletime";
+const plugin = readJson(`${pluginRoot}/.cursor-plugin/plugin.json`);
 if (plugin) {
   for (const field of ["name", "logo", "license"]) {
     if (plugin[field] == null || plugin[field] === "") {
-      fail(`.cursor-plugin/plugin.json missing required field: ${field}`);
+      fail(`${pluginRoot}/.cursor-plugin/plugin.json missing required field: ${field}`);
     }
   }
   if (!plugin.author || typeof plugin.author !== "object" || !plugin.author.name) {
-    fail(".cursor-plugin/plugin.json missing required field: author.name");
+    fail(`${pluginRoot}/.cursor-plugin/plugin.json missing required field: author.name`);
   }
   if (plugin.author && Object.prototype.hasOwnProperty.call(plugin.author, "email")) {
-    fail(".cursor-plugin/plugin.json must not include author.email");
+    fail(`${pluginRoot}/.cursor-plugin/plugin.json must not include author.email`);
   }
   if (plugin.logo) {
-    const logoAbs = join(root, plugin.logo);
+    const logoAbs = join(root, pluginRoot, plugin.logo);
     if (!existsSync(logoAbs)) {
       fail(`Logo path does not exist: ${plugin.logo}`);
     }
   }
 }
 
-const mcp = readJson("mcp.json");
+const mcp = readJson(`${pluginRoot}/mcp.json`);
 const trackingUrl = "https://track.abletime.com/api/public/v2/mcp";
 const boardUrl = "https://track.abletime.com/api/public/v2/mcp/pm";
 if (mcp) {
@@ -79,7 +97,7 @@ if (mcp) {
   }
 }
 
-const rule = readText("rules/recording.mdc");
+const rule = readText(`${pluginRoot}/rules/recording.mdc`);
 if (rule !== null) {
   const fmMatch = rule.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fmMatch) {
@@ -89,7 +107,7 @@ if (rule !== null) {
   }
 }
 
-const skill = readText("skills/record-time/SKILL.md");
+const skill = readText(`${pluginRoot}/skills/record-time/SKILL.md`);
 if (skill !== null) {
   const fmMatch = skill.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fmMatch) {

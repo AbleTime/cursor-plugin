@@ -24,23 +24,21 @@ Cursor authenticates with **OAuth**. AbleTime answers unauthenticated MCP calls 
 
 Do **not** put a PAT or `Authorization` header in `mcp.json`. A personal access token is an AbleTime credential for other clients (scripts, non-Cursor tools). It is not the Cursor install path.
 
-## Local install (testing)
+## Install
 
-Until this plugin is on the Cursor Marketplace, install from this repo:
+This repo is a Cursor team marketplace (`/.cursor-plugin/marketplace.json`) with one plugin at `plugins/abletime`.
+
+**Import Marketplace** (Customize → Import): paste `https://github.com/AbleTime/cursor-plugin`. Cursor must be able to read the AbleTime GitHub org (Cursor GitHub App installed on that org). Then enable AbleTime.
+
+**Local testing:**
 
 ```bash
 git clone https://github.com/AbleTime/cursor-plugin.git
 mkdir -p ~/.cursor/plugins/local
-ln -sfn "$(pwd)/cursor-plugin" ~/.cursor/plugins/local/abletime
+ln -sfn "$(pwd)/cursor-plugin/plugins/abletime" ~/.cursor/plugins/local/abletime
 ```
 
-Then reload Cursor (**Developer: Reload Window**) and enable the plugin under **Customize**.
-
-Confirm the symlink:
-
-```bash
-ls -la ~/.cursor/plugins/local/abletime
-```
+Reload (**Developer: Reload Window**). Enable AbleTime under **Customize** (filter User / local, not the public marketplace). Local imports must be allowed: Dashboard → Settings → Marketplace and Plugins → **Allow Local Plugin Imports**. Off by default on Enterprise.
 
 ## Validate
 
