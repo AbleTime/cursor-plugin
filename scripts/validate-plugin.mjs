@@ -45,8 +45,8 @@ if (marketplace) {
     fail(".cursor-plugin/marketplace.json must not include owner.email");
   }
   const entry = Array.isArray(marketplace.plugins) ? marketplace.plugins[0] : null;
-  if (!entry || entry.name !== "abletime" || entry.source !== "./plugins/abletime") {
-    fail(".cursor-plugin/marketplace.json must list abletime at ./plugins/abletime");
+  if (!entry || entry.name !== "abletime" || entry.source !== "plugins/abletime") {
+    fail(".cursor-plugin/marketplace.json must list abletime at plugins/abletime");
   }
 }
 

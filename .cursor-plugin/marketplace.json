@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "abletime",
-      "source": "./plugins/abletime",
+      "source": "plugins/abletime",
       "description": "Record time and run the AbleTime board from Cursor."
     }
   ]

@@ -30,15 +30,15 @@ This repo is a Cursor team marketplace (`/.cursor-plugin/marketplace.json`) with
 
 **Import Marketplace** (Customize → Import): paste `https://github.com/AbleTime/cursor-plugin`. Cursor must be able to read the AbleTime GitHub org (Cursor GitHub App installed on that org). Then enable AbleTime.
 
-**Local testing:**
+**Local testing:** Cursor rejects a symlink whose target is outside `~/.cursor/plugins/local`. Copy the plugin directory in:
 
 ```bash
 git clone https://github.com/AbleTime/cursor-plugin.git
 mkdir -p ~/.cursor/plugins/local
-ln -sfn "$(pwd)/cursor-plugin/plugins/abletime" ~/.cursor/plugins/local/abletime
+rsync -a cursor-plugin/plugins/abletime/ ~/.cursor/plugins/local/abletime/
 ```
 
-Reload (**Developer: Reload Window**). Enable AbleTime under **Customize** (filter User / local, not the public marketplace). Local imports must be allowed: Dashboard → Settings → Marketplace and Plugins → **Allow Local Plugin Imports**. Off by default on Enterprise.
+Reload (**Developer: Reload Window**). Enable AbleTime under **Customize**.
 
 ## Validate
 
