@@ -73,15 +73,14 @@ if (plugin) {
 }
 
 const mcp = readJson(`${pluginRoot}/mcp.json`);
-const trackingUrl = "https://track.abletime.com/api/public/v2/mcp";
-const boardUrl = "https://track.abletime.com/api/public/v2/mcp/pm";
+const fullUrl = "https://develop.abletime.com/api/public/v2/mcp/full";
 if (mcp) {
   const raw = JSON.stringify(mcp);
-  if (!raw.includes(trackingUrl)) {
-    fail(`mcp.json missing production tracking URL: ${trackingUrl}`);
+  if (!raw.includes(fullUrl)) {
+    fail(`mcp.json missing develop full URL: ${fullUrl}`);
   }
-  if (!raw.includes(boardUrl)) {
-    fail(`mcp.json missing production board URL: ${boardUrl}`);
+  if (Object.keys(mcp.mcpServers || {}).length !== 1) {
+    fail("mcp.json must declare exactly one MCP server");
   }
   if (/Authorization/i.test(raw)) {
     fail("mcp.json must not contain Authorization");
@@ -107,18 +106,79 @@ if (rule !== null) {
   }
 }
 
-const skill = readText(`${pluginRoot}/skills/record-time/SKILL.md`);
-if (skill !== null) {
-  const fmMatch = skill.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+function checkSkillFrontmatter(relPath) {
+  const text = readText(relPath);
+  if (text === null) {
+    return;
+  }
+  const fmMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fmMatch) {
-    fail("skills/record-time/SKILL.md missing YAML frontmatter");
+    fail(`${relPath} missing YAML frontmatter`);
+    return;
+  }
+  const fm = fmMatch[1];
+  if (!/^name\s*:/m.test(fm)) {
+    fail(`${relPath} frontmatter missing name`);
+  }
+  if (!/^description\s*:/m.test(fm)) {
+    fail(`${relPath} frontmatter missing description`);
+  }
+}
+
+checkSkillFrontmatter(`${pluginRoot}/skills/record-time/SKILL.md`);
+checkSkillFrontmatter(`${pluginRoot}/skills/watch/SKILL.md`);
+checkSkillFrontmatter(`${pluginRoot}/skills/intake/SKILL.md`);
+checkSkillFrontmatter(`${pluginRoot}/skills/sorting-hat/SKILL.md`);
+checkSkillFrontmatter(`${pluginRoot}/skills/bugfix/SKILL.md`);
+
+const watchCommand = readText(`${pluginRoot}/commands/watch.md`);
+if (watchCommand !== null) {
+  const fmMatch = watchCommand.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fmMatch) {
+    fail("commands/watch.md missing YAML frontmatter");
   } else {
     const fm = fmMatch[1];
     if (!/^name\s*:/m.test(fm)) {
-      fail("skills/record-time/SKILL.md frontmatter missing name");
+      fail("commands/watch.md frontmatter missing name");
     }
     if (!/^description\s*:/m.test(fm)) {
-      fail("skills/record-time/SKILL.md frontmatter missing description");
+      fail("commands/watch.md frontmatter missing description");
+    }
+  }
+}
+
+const hooksJson = readJson(`${pluginRoot}/hooks/hooks.json`);
+if (hooksJson) {
+  if (hooksJson.version !== 1) {
+    fail("hooks/hooks.json version must be 1");
+  }
+  const hooks = hooksJson.hooks ?? {};
+  if (!Array.isArray(hooks.sessionStart) || hooks.sessionStart.length === 0) {
+    fail("hooks/hooks.json missing sessionStart hook");
+  }
+  if (!Array.isArray(hooks.stop) || hooks.stop.length === 0) {
+    fail("hooks/hooks.json missing stop hook");
+  } else {
+    const stopEntry = hooks.stop[0];
+    if (!stopEntry?.command) {
+      fail("hooks/hooks.json stop hook missing command");
+    }
+    if (!Object.prototype.hasOwnProperty.call(stopEntry, "loop_limit") || stopEntry.loop_limit !== null) {
+      fail("hooks/hooks.json stop hook must set loop_limit to null");
+    }
+  }
+  for (const [event, entries] of Object.entries(hooks)) {
+    if (!Array.isArray(entries)) {
+      continue;
+    }
+    for (const entry of entries) {
+      if (entry?.command) {
+        const scriptRel = entry.command.replace(/^\.\//, "");
+        const scriptAbs = join(root, pluginRoot, scriptRel);
+        if (!existsSync(scriptAbs)) {
+          fail(`Hook script does not exist: ${pluginRoot}/${scriptRel}`);
+        }
+      }
     }
   }
 }

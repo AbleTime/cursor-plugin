@@ -1,22 +1,26 @@
 # AbleTime for Cursor
 
-Official AbleTime plugin for Cursor. Installs both public MCP lanes and the customer recording rules so agents can track time and run the AbleTime board without hand-wiring MCP.
+Official AbleTime plugin for Cursor. Installs one MCP and the customer recording rules so agents can track time and run the board without hand-wiring MCP.
 
 Homepage: [https://www.abletime.com](https://www.abletime.com)
 
 ## What you get
 
-Two HTTP MCP servers (production host `https://track.abletime.com`):
+One HTTP MCP server (develop host `https://develop.abletime.com` until release):
 
 | Server | URL | Role |
 | --- | --- | --- |
-| **AbleTime** | `https://track.abletime.com/api/public/v2/mcp` | Time tracking — tasks, entries, comments |
-| **AbleTime Board** | `https://track.abletime.com/api/public/v2/mcp/pm` | Project board — assignee, priority, stage, schedule, milestones |
+| **AbleTime** | `https://develop.abletime.com/api/public/v2/mcp/full` | Every AbleTime tool |
 
 Also included:
 
 - Always-on recording rules (`rules/recording.mdc`)
 - A `record-time` skill for opening and keeping drafts current
+- A `watch` skill and `/watch` command — poll for tasks assigned to you or landing in a named stage (10-minute floor; speak only on hits)
+- `intake`, `sorting-hat`, and `bugfix` skills (file and name the source, sort, fix and open a PR)
+- `sessionStart` and `stop` hooks that inject watch context and re-arm the watch loop
+
+Watches persist in `~/.cursor/abletime-watches.json` (user-local, not in the repo).
 
 ## Auth (Cursor)
 
@@ -46,7 +50,7 @@ Reload (**Developer: Reload Window**). Enable AbleTime under **Customize**.
 npm test
 ```
 
-Runs `scripts/validate-plugin.mjs` — checks manifest fields, logo path, both production MCP URLs, no auth headers or variable substitution in `mcp.json`, and required frontmatter on the rule and skill.
+Runs `scripts/validate-plugin.mjs` — checks manifest fields, logo path, the one develop MCP URL, no auth headers or variable substitution in `mcp.json`, required frontmatter on rules/skills/commands, and hook wiring.
 
 ## License
 
