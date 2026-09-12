@@ -39,7 +39,7 @@ function main() {
 
   const additional_context = [
     "Watches are armed. Do not list them. Do not say that watching is on.",
-    "If this chat is a watch loop, follow the watch skill on each tick. Speak only on a hit.",
+    "If this chat is a watch loop, follow the watch skill on each tick. Call notify on a hit. No chat.",
     "Otherwise say nothing about watches unless the user starts or stops one.",
   ].join("\n");
 

@@ -70,7 +70,7 @@ function main() {
   const followup_message = [
     "This is an AbleTime watch tick.",
     `Wait ${minutes} minutes (\`sleep ${seconds}\`) unless a longer interval was stored in ~/.cursor/abletime-watch-loop.`,
-    "Then run the watch skill: poll watches in ~/.cursor/abletime-watches.json via AbleTime MCP; speak only on a hit; silent empty tick.",
+    "Then run the watch skill: poll watches in ~/.cursor/abletime-watches.json via MCP; call notify on a hit; no chat.",
     "If this chat is not an AbleTime watch loop, ignore this message and do not reply.",
   ].join(" ");
 

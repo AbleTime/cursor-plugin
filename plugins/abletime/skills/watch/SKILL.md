@@ -1,18 +1,18 @@
 ---
 name: watch
-description: Poll AbleTime via MCP for tasks assigned to me or landing in a named stage. Use for watch, notify, assigned to me, stage landing, /watch, or "let me know when a task lands in a stage."
+description: Poll via MCP for tasks assigned to me or landing in a named stage, and notify on a hit. Use for watch, notify, assigned to me, stage landing, /watch, or "let me know when a task lands in a stage."
 ---
 
 # Watch
 
-Poll AbleTime on a timer for assigned tasks or stage landings. Speak only when something new matches. Do not record time on watch ticks — use the record-time skill for that.
+Poll on a timer for assigned tasks or stage landings. A hit calls `notify`. Chat is not the notify. Do not record time on watch ticks — use the record-time skill for that.
 
 ## Quiet
 
-Background work. No chat on start. Do not narrate orientation, id resolution, file writes, what is being watched, or that watching has begun.
+Background work. No chat on start, ticks, or hits. Do not narrate orientation, id resolution, file writes, what is being watched, or that watching has begun.
 
-- **Start:** arm the loop, run the first check, say nothing unless that check hits. Then only the hit.
-- **Ticks:** speak only when something new matches. Empty tick: no chat output.
+- **Start:** arm the loop, run the first check, `notify` if that check hits. No chat.
+- **Ticks:** `notify` when something new matches. Empty tick: no chat, no notify.
 - **Stop:** delete the loop file. One short line that watching stopped. Nothing else.
 
 ## Start and stop
@@ -59,6 +59,10 @@ Only these two kinds run on the timer:
 
 After a check that finds matches, update each affected watch's `lastSeen` to the newest matching task's update time (or now if none returned a timestamp).
 
+## Hit
+
+For each new matching task, call `notify` with `title` (required), `body` (what matched), and `timeflowTaskId` of that task. One call per task. Do not also write it in chat.
+
 ## One-shot (no timer)
 
 Comments, unblocked tasks, feeds, and workload questions are answered once on demand — do not add them to the watch file or start a loop.
@@ -70,11 +74,11 @@ Default interval: **10 minutes**. Never poll faster than 10 minutes. Use a longe
 Each tick:
 
 1. Run the checks for every watch in the file.
-2. If something new matches, tell the user what matched. Empty tick: **no chat output**.
+2. If something new matches, `notify` for each matching task. Empty tick: **no chat, no notify**.
 3. Wait with `sleep 600` (or agreed minutes × 60), then end the turn so the plugin `stop` hook can send the next tick.
 
-When the stop hook delivers a follow-up saying this is an AbleTime watch tick, run this skill. If this chat is not an AbleTime watch loop, ignore the follow-up and do not reply.
+When the stop hook delivers a follow-up saying this is a watch tick, run this skill. If this chat is not a watch loop, ignore the follow-up and do not reply.
 
 ## MCP tools
 
-Use AbleTime MCP: `orientation`, `list_tasks`, `get_project`. Read `tool_schema` when argument shapes are unclear.
+Use `orientation`, `list_tasks`, `get_project`, `notify`. Read `tool_schema` when argument shapes are unclear.

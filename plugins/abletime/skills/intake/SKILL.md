@@ -5,7 +5,7 @@ description: File a report onto a project and stamp the named source. Use for in
 
 # Intake
 
-File one task on the project this report belongs to. Stamp the source. Then notify.
+File one task on the project this report belongs to. Stamp the source. Then `notify`.
 
 ## Instructions
 
@@ -13,4 +13,4 @@ File one task on the project this report belongs to. Stamp the source. Then noti
 2. The source is required. Put it on `externalRefSource`. Use the name the report already has. Do not invent a source. If there is no name, ask once and wait.
 3. Stamp `externalRefId`, `externalRefName`, and `externalRefUrl` only when the report carries them.
 4. `create_task` on that project. Title is the failure in one line. Description is the report. Category is one of that project's categories — pick the one that fits; do not invent a category.
-5. Call `notify` with that task's id, a title, and a body. That is how the person hears it was filed. Do not use chat as the notify.
+5. Call `notify` with `title`, `body`, and `timeflowTaskId` of the new task. That is how the person hears it was filed. Do not use chat as the notify.

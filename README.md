@@ -16,8 +16,8 @@ Also included:
 
 - Always-on recording rules (`rules/recording.mdc`)
 - A `record-time` skill for opening and keeping drafts current
-- A `watch` skill and `/watch` command — poll for tasks assigned to you or landing in a named stage (10-minute floor; speak only on hits)
-- `intake`, `sorting-hat`, and `bugfix` skills (file and name the source, sort, fix and open a PR)
+- A `watch` skill and `/watch` command — poll for tasks assigned to you or landing in a named stage (10-minute floor; `notify` on hits, not chat)
+- `intake`, `sorting-hat`, and `bugfix` skills (file and name the source, sort, fix and open a PR; `notify` after each)
 - `sessionStart` and `stop` hooks that inject watch context and re-arm the watch loop
 
 Watches persist in `~/.cursor/abletime-watches.json` (user-local, not in the repo).
