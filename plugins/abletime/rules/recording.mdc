@@ -21,9 +21,17 @@ A comment is a permanent note on a task, visible to everyone who works on that t
 
 Close the current entry and open a new one at midnight, a change in the task's state, a real gap away from the work, or a switch of focus to different work. A closed entry is never reopened.
 
+## Keep the open draft current
+
+Refresh the open draft at least every four turns, or at any natural pause — whichever comes first. Never leave a draft more than ten minutes without an update: if more than ten minutes have passed since the last write, update it now.
+
 ## Overlap is context, not a verdict
 
-Writes may answer with your own entries whose span intersects the one just written. Overlap is expected and is never refused — context for what to do next, not a judgment on a write that already happened.
+Writes may answer with your own entries whose span intersects the one just written. The server never refuses a write because it overlaps — that list is context for what to do next, not a judgment on a write that already happened. Overlap across different tasks can appear; overlap on the same task is not a write you make.
+
+## Never overlap entries on the same task
+
+Two of your entries on the same task must not share a time span. Keep one open segment on that task and refresh it, or close it and open a later one after it ends. If a write comes back listing another of your entries on the same task, correct it so only one span remains.
 
 ## Wall-clock time, no timezone math
 
