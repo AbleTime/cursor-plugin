@@ -1,23 +1,22 @@
 # AbleTime for Cursor
 
-Official AbleTime plugin for Cursor. Installs two MCP servers and the customer recording rules so agents can track time, run the board, and read reports without hand-wiring MCP.
+Official AbleTime plugin for Cursor. Installs one MCP server and the customer recording rules so agents can track time, run the board, and read reports without hand-wiring MCP.
 
 Homepage: [https://www.abletime.com](https://www.abletime.com)
 
 ## What you get
 
-Two HTTP MCP servers on `https://track.abletime.com`:
+One HTTP MCP server on `https://track.abletime.com`:
 
 | Server | URL | Role |
 | --- | --- | --- |
-| **AbleTime** | `https://track.abletime.com/api/public/v2/mcp/full` | Time and the board |
-| **AbleTime Reports** | `https://track.abletime.com/api/public/v2/mcp/reports` | Reports. Its own connection. Not on `/mcp/full`. |
+| **AbleTime** | `https://track.abletime.com/api/public/v2/mcp/plugins` | Time, the board, and reports |
 
 Also included:
 
 - Always-on recording rules (`rules/recording.mdc`)
 - A `record-time` skill for opening and keeping drafts current, pulling calendar feeds, and accepting a draft when asked
-- A `walkthrough` skill that reads the public guide at `https://docs.abletime.com/guides/1.0/agentic-ai/using-the-cursor-plugin` (the page may not be published yet)
+- A `walkthrough` skill that reads the public guide at `https://docs.abletime.com/guides/1.0/agentic-ai/using-the-cursor-plugin`
 - A `reports` skill that asks for a named report and returns the share link
 - A `board` skill for epics, milestones, comments, schedule, dependency, block, and lock
 - A `watch` skill and `/watch` command — poll for tasks assigned to you or landing in a named stage (10-minute floor; `notify` on hits, not chat)
@@ -26,11 +25,9 @@ Also included:
 
 Watches persist in `~/.cursor/abletime-watches.json` (user-local, not in the repo).
 
-## Reports endpoint
+## Reports
 
-`https://track.abletime.com/api/public/v2/mcp/reports`
-
-This is a second MCP server. Cursor approves it on its own, the same way as the first. `/mcp/full` does not serve it.
+Reports are on the same server, `https://track.abletime.com/api/public/v2/mcp/plugins`. One connection covers them.
 
 The tool is `get_report`. It takes a date range and, optionally, which reports to draw by name or by code (`AT-001` upward). The answer is the share link: a stub, a keycode, when the link expires, and a reader path on the same host, `/r/{stub}?key={keycode}`. The page opens without signing in. The link lasts fourteen days. The numbers behind the page are not in the answer unless `includeData` is set.
 
@@ -64,7 +61,7 @@ Reload (**Developer: Reload Window**). Enable AbleTime under **Customize**.
 npm test
 ```
 
-Runs `scripts/validate-plugin.mjs` — checks manifest fields, logo path, the two live MCP URLs, no auth headers or variable substitution in `mcp.json`, required frontmatter on rules/skills/commands, and hook wiring.
+Runs `scripts/validate-plugin.mjs` — checks manifest fields, logo path, the live MCP URL, no auth headers or variable substitution in `mcp.json`, required frontmatter on rules/skills/commands, and hook wiring.
 
 ## License
 

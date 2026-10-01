@@ -73,25 +73,18 @@ if (plugin) {
 }
 
 const mcp = readJson(`${pluginRoot}/mcp.json`);
-const fullUrl = "https://track.abletime.com/api/public/v2/mcp/full";
-const reportsUrl = "https://track.abletime.com/api/public/v2/mcp/reports";
+const pluginsUrl = "https://track.abletime.com/api/public/v2/mcp/plugins";
 if (mcp) {
   const raw = JSON.stringify(mcp);
   const servers = mcp.mcpServers || {};
-  if (!raw.includes(fullUrl)) {
-    fail(`mcp.json missing live full URL: ${fullUrl}`);
+  if (!raw.includes(pluginsUrl)) {
+    fail(`mcp.json missing live plugins URL: ${pluginsUrl}`);
   }
-  if (!raw.includes(reportsUrl)) {
-    fail(`mcp.json missing live reports URL: ${reportsUrl}`);
+  if (Object.keys(servers).length !== 1) {
+    fail("mcp.json must declare exactly one MCP server: AbleTime");
   }
-  if (Object.keys(servers).length !== 2) {
-    fail("mcp.json must declare exactly two MCP servers: AbleTime and AbleTime Reports");
-  }
-  if (!servers.AbleTime || servers.AbleTime.url !== fullUrl) {
-    fail("mcp.json AbleTime must point at the live full URL");
-  }
-  if (!servers["AbleTime Reports"] || servers["AbleTime Reports"].url !== reportsUrl) {
-    fail("mcp.json AbleTime Reports must point at the live reports URL");
+  if (!servers.AbleTime || servers.AbleTime.url !== pluginsUrl) {
+    fail("mcp.json AbleTime must point at the live plugins URL");
   }
   if (/Authorization/i.test(raw)) {
     fail("mcp.json must not contain Authorization");
